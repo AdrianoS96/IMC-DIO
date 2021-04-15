@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">IMC!</string>
-    <string name="txtOlaRadiobtn">Olá radiobutton</string>
-    <string name="txtOlaCheckbox">Olá checkbox</string>
-    <string name="hello_world">Olá Mundo!</string>
+    <string name="txtTitulo">IMC</string>
+    <string name="btnCalcular">Calcular</string>
+    <string name="edt_hint_peso">Peso (ex: 65.8 kg)</string>
+    <string name="edt_hint_altura">Altura (ex: 1.78 m)</string>
 </resources>

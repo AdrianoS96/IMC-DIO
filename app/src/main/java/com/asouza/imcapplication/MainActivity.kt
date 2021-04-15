@@ -1,46 +1,55 @@
 package com.asouza.imcapplication
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
+
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
+
+
+/**
+ * LEMBRAR SEMPRE DE ADICIONAR A LINHA:
+ * id 'kotlin-android-extensions'
+ * NO ARQUIVO build.gradle(Module...)
+ */
 
 class MainActivity : AppCompatActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.w("LifeCycle", "CREATE - estou criando a tela")
-        //finish()//destroi a aplicação (finaliza o ciclo da aplicação)
+        setListeners()
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.w("Lifecycle", "START - deixei a tela visivel para você")
+
+
+    private fun setListeners(){
+        alturaEdt?.doAfterTextChanged { text ->
+            Toast.makeText(this, text.toString(), Toast.LENGTH_SHORT).show()
+        }
+        pesoEdt?.doOnTextChanged{ text, _, _, _ ->
+                tituloTxt?.text = text
+        }
+        calcularBtn.setOnClickListener {
+            calcularIMC(pesoEdt.text.toString(), alturaEdt.text.toString())
+        }
+
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.w("Lifecycle", "RESUME - agora você pode interagir com  a tela")
+    private fun calcularIMC(peso: String, altura: String){
+        val peso = peso.toFloatOrNull()
+        val altura = altura.toFloatOrNull()
+
+        if(peso != null && altura != null){
+            val imc = peso/(altura*altura)
+            tituloTxt.text="Seu IMC é:\n ${imc}" //.format(imc) //falta formatar o numero para 2 casas decimais
+        }
+
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.w("Lifecycle", "PAUSE - a tela perdeu o foco, você não pode mais interagir")
-    }
 
-    override fun onStop() {
-        super.onStop()
-        Log.w("Lifecycle", "STOP - a tela não está mais visivel, mas ainda existe")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.w("Lifecycle", "RESTART - a tela está retomando o foco")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.w("Lifecycle", "DESTROY - oh não! a tela foi destruída")
-    }
 
 }
